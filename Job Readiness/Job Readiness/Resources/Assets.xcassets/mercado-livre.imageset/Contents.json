@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "mercado-livre.jpeg",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}
