@@ -17,7 +17,6 @@ struct Items: Codable {
     }
 }
 
-// MARK: - Item
 struct Item: Codable {
     let id: String
     let title: String
@@ -33,7 +32,6 @@ struct Item: Codable {
     }
 }
 
-// MARK: - Picture
 struct Picture: Codable {
     let id: String
     let url: String?

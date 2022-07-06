@@ -25,7 +25,7 @@ struct FavoriteManager {
         updateFavorites()
     }
     
-    func updateFavorites() {
+    private func updateFavorites() {
         userDefaults.set(FavoriteManager.itemsFavorited, forKey: "favorited")
     }
     

@@ -7,7 +7,7 @@
 
 import UIKit
 
-class FavoriteView: UIView {
+final class FavoriteView: UIView {
 
     private lazy var headerView: UIView = {
         let view = UIView()
