@@ -65,29 +65,29 @@ final class SearchTableViewCell: UITableViewCell {
     }()
     
     private lazy var labelsStackView: UIStackView = {
-        let stack = UIStackView()
+        let stackView = UIStackView()
         
-        stack.translatesAutoresizingMaskIntoConstraints = false
+        stackView.translatesAutoresizingMaskIntoConstraints = false
         
-        stack.axis = .vertical
-        stack.alignment = .fill
-        stack.distribution = .equalSpacing
-        stack.spacing = 4
+        stackView.axis = .vertical
+        stackView.alignment = .fill
+        stackView.distribution = .equalSpacing
+        stackView.spacing = 4
         
-        return stack
+        return stackView
     }()
     
     private lazy var itemStackView: UIStackView = {
-        let stack = UIStackView()
+        let stackView = UIStackView()
         
-        stack.translatesAutoresizingMaskIntoConstraints = false
+        stackView.translatesAutoresizingMaskIntoConstraints = false
         
-        stack.axis = .horizontal
-        stack.alignment = .top
-        stack.distribution = .equalSpacing
-        stack.spacing = 10
+        stackView.axis = .horizontal
+        stackView.alignment = .top
+        stackView.distribution = .equalSpacing
+        stackView.spacing = 10
         
-        return stack
+        return stackView
     }()
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
