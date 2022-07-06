@@ -8,7 +8,6 @@
 import UIKit
 
 class ItemViewController: UIViewController {
-
     private lazy var itemView: ItemView = {
         ItemView(frame: .zero)
     }()
@@ -62,16 +61,16 @@ class ItemViewController: UIViewController {
         itemView.titleItemLabel.text = item.title
         itemView.priceLabel.text = formatNumberToDecimal(value: item.price ?? 0.0)
         
-        if let thumbnail = item.pictures[0].url, let urlThumbnail = URL(string: thumbnail){
-            itemView.itemImageView.af.setImage(withURL: urlThumbnail)
-        }
+//        if let thumbnail = item.pictures[0].url, let urlThumbnail = URL(string: thumbnail){
+//            itemView.itemImageView.af.setImage(withURL: urlThumbnail)
+//        }
         
     }
     
     private func getDescription() {
         guard let item = item else { return }
         
-        network.getDescription(item.id) { response in
+        network.getDescription(using: item.id) { response in
             guard let response = response else { return }
 
             self.itemView.descriptionItemLabel.text = response.descriptionText

@@ -6,23 +6,20 @@
 //
 
 import UIKit
-import Alamofire
-import AlamofireImage
 
-class SearchViewController: UIViewController {
+final class SearchViewController: UIViewController {
     private lazy var searchView: SearchView = {
         SearchView(frame: .zero)
     }()
 
-    private var items: [Response] = []
     private let favoriteManager = FavoriteManager()
-    private var categoryId = String()
-    private var listItemId: [ItemId] = []
     private var network = Network()
-    private var itemsPath = String()
+    
+    private var listItems: [Items] = []
+    
     private var didLoad: Bool = true {
         didSet {
-            didLoad ? searchView.loading.stopAnimating() : searchView.loading.startAnimating()
+            didLoad ? searchView.activityIndicator.stopAnimating() : searchView.activityIndicator.startAnimating()
         }
     }
     
@@ -38,10 +35,39 @@ class SearchViewController: UIViewController {
         setUpSearchBar()
     }
     
+    private func setUpSearchBar() {
+        searchView.searchBar.delegate = self
+    }
+    
+    private func searchItems(with categoryId: String) {
+        network.getItemsFrom(categoryId) { response in
+            guard let response = response else {
+                self.makeAndPresentAlertError()
+                self.setDidLoad()
+                return
+            }
+            
+            let listId = response.content.filter({$0.type == "ITEM"})
+            self.setItems(with: self.makeUrlPath(using: listId))
+        }
+    }
+    
+    private func makeUrlPath(using listId: [IdItem]) -> String {
+        var itemsPath = String()
+        
+        for itemId in listId {
+            let idPath = itemId.id == listId.last?.id ? itemId.id : itemId.id + ","
+            
+            itemsPath += idPath
+        }
+        
+        return itemsPath
+    }
+    
     private func setItems(with itemsPath: String) {
-        network.getItems(items: itemsPath) { response in
-            self.items = response
-            self.didLoad = true
+        network.getItems(using: itemsPath) { response in
+            self.listItems = response
+            self.setDidLoad()
             self.setUpTableView()
             self.searchView.tableView.reloadData()
         }
@@ -54,55 +80,35 @@ class SearchViewController: UIViewController {
         searchView.tableView.register(SearchTableViewCell.self, forCellReuseIdentifier: SearchTableViewCell.reuseId)
     }
     
-    private func searchItems(with categoryId: String) {
-        network.getItemsFrom(categoryId) { response in
-            guard let response = response
-            else {
-                self.makeAndPresentAlertError()
-                self.didLoad = true
-                return
-            }
-
-            self.listItemId = response.content.filter({$0.type == "ITEM"})
-            var i = 0
-            
-            for itemId in self.listItemId {
-                i += 1
-                
-                if i == self.listItemId.endIndex {
-                    self.itemsPath += itemId.id
-                } else {
-                    self.itemsPath += itemId.idUrl ?? ""
-                }
-            }
-            
-            self.setItems(with: self.itemsPath)
-        }
-    }
-    
     private func makeAndPresentAlertError() {
         let message = "Não foi possível encontrar items!"
-        let title = "Items dessa categoria não encontrados!"
+        let title = "Items desta categoria não foram encontrados!"
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         
         alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
         
         self.present(alert, animated: true, completion: nil)
     }
+    
+    private func setDidLoad() {
+        didLoad = !didLoad
+    }
+    
+    private func cleanTableView() {
+        listItems.removeAll()
+        searchView.tableView.reloadData()
+    }
 }
     
 extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(
-            withIdentifier: SearchTableViewCell.reuseId, for: indexPath) as? SearchTableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: SearchTableViewCell.reuseId, for: indexPath) as? SearchTableViewCell
+        let item = listItems[indexPath.row].item
         
-        guard let cell = cell,
-              !items.isEmpty,
-              let thumbnail = items[indexPath.row].item.thumbnail,
-              let urlThumbnail = URL(string: thumbnail) else { return UITableViewCell() }
+        guard let cell = cell, let thumbnail = item.thumbnail, let urlThumbnail = URL(string: thumbnail) else { return UITableViewCell() }
         
-        let nameItem = items[indexPath.row].item.title
-        let price = items[indexPath.row].item.price ?? 0.0
+        let nameItem = item.title
+        let price = item.price ?? -1
         
         cell.set(nameItem, price, urlThumbnail)
         
@@ -110,40 +116,32 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return items.count
+        return listItems.count
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let viewController = ItemViewController()
-        var item = items[indexPath.row].item
+        var item = listItems[indexPath.row].item
+        
         self.delegate = viewController
-        
-        searchView.tableView.deselectRow(at: indexPath, animated: true)
-        
         item.isFavorited = favoriteManager.consultFavorited(with: item.id)
         
         delegate?.setInformations(with: item)
+        searchView.tableView.deselectRow(at: indexPath, animated: true)
         
         navigationController?.pushViewController(viewController, animated: true)
     }
 }
 
 extension SearchViewController: UISearchBarDelegate {
-    private func setUpSearchBar() {
-        searchView.searchBar.delegate = self
-    }
-
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        guard let categorie = searchView.searchBar.text else {return}
-        didLoad = false
-        items.removeAll()
-        searchView.tableView.reloadData()
+        guard let categorie = searchView.searchBar.text else { return }
         
-        itemsPath = String()
+        setDidLoad()
+        cleanTableView()
         
-        network.getCategory(categorieSearch: categorie) { response in
-            guard let response = response.first
-            else {
+        network.getCategory(using: categorie) { response in
+            guard let response = response.first else {
                 self.makeAndPresentAlertError()
                 return
             }

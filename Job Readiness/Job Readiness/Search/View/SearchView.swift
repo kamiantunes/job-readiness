@@ -7,7 +7,7 @@
 
 import UIKit
 
-class SearchView: UIView {
+final class SearchView: UIView {
     private lazy var headerView: UIView = {
         let view = UIView()
         
@@ -26,7 +26,6 @@ class SearchView: UIView {
         searchBar.clearBackgroundColor()
         searchBar.searchTextField.backgroundColor = .white
         searchBar.searchTextField.layer.cornerRadius = 18
-        searchBar.searchTextField.clipsToBounds = true
         searchBar.searchTextField.layer.masksToBounds = true
 
         return searchBar
@@ -42,15 +41,15 @@ class SearchView: UIView {
         return tableView
     }()
     
-    lazy var loading: UIActivityIndicatorView = {
-        let loading = UIActivityIndicatorView()
+    lazy var activityIndicator: UIActivityIndicatorView = {
+        let activityIndicatorView = UIActivityIndicatorView()
         
-        loading.translatesAutoresizingMaskIntoConstraints = false
+        activityIndicatorView.translatesAutoresizingMaskIntoConstraints = false
         
-        loading.hidesWhenStopped = true
-        loading.style = .large
+        activityIndicatorView.hidesWhenStopped = true
+        activityIndicatorView.style = .large
         
-        return loading
+        return activityIndicatorView
     }()
     
     override init(frame: CGRect) {
@@ -69,13 +68,13 @@ class SearchView: UIView {
         setUpConstraintHeaderView()
 
         headerView.addSubview(searchBar)
-        setUpConstraintSearchTextField()
+        setUpConstraintSearchBar()
 
         addSubview(tableView)
         setUpConstraintsTableView()
         
-        addSubview(loading)
-        setUpConstraintLoading()
+        addSubview(activityIndicator)
+        setUpConstraintLoadingActivityIndicatorView()
     }
     
     private func setUpConstraintHeaderView() {
@@ -87,7 +86,7 @@ class SearchView: UIView {
         ])
     }
     
-    private func setUpConstraintSearchTextField() {
+    private func setUpConstraintSearchBar() {
         NSLayoutConstraint.activate([
             searchBar.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor, constant: 7),
             searchBar.leadingAnchor.constraint(equalTo: headerView.leadingAnchor, constant: 16),
@@ -105,10 +104,10 @@ class SearchView: UIView {
         ])
     }
     
-    private func setUpConstraintLoading() {
+    private func setUpConstraintLoadingActivityIndicatorView() {
         NSLayoutConstraint.activate([
-            loading.centerYAnchor.constraint(equalTo: self.centerYAnchor),
-            loading.centerXAnchor.constraint(equalTo: self.centerXAnchor)
+            activityIndicator.centerYAnchor.constraint(equalTo: self.centerYAnchor),
+            activityIndicator.centerXAnchor.constraint(equalTo: self.centerXAnchor)
         ])
     }
 }

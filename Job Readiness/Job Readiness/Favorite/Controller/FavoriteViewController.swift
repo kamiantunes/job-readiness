@@ -15,7 +15,7 @@ class FavoriteViewController: UIViewController {
     
     private let network = Network()
     private let favoriteManager = FavoriteManager()
-    private var favorites: [Response] = []
+    private var favorites: [Items] = []
     
     private var delegate: ItemViewControllerDelegate?
 
@@ -48,7 +48,7 @@ class FavoriteViewController: UIViewController {
         
         favoriteView.loading.startAnimating()
         
-        network.getItems(items: favoriteManager.getIdsForPath()) { response in
+        network.getItems(using: favoriteManager.getIdsForPath()) { response in
             self.favorites = response
             self.favorites.sort(by: {$0.item.id > $1.item.id})
             self.setUpTableView()
@@ -75,7 +75,7 @@ extension FavoriteViewController: UITableViewDelegate, UITableViewDataSource {
         let nameItem = favorites[indexPath.row].item.title
         let price = favorites[indexPath.row].item.price ?? 0.0
         
-        cell.set(nameItem, price, urlThumbnail)
+        //cell.set(nameItem, price, urlThumbnail)
         
         return cell
     }

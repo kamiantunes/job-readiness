@@ -7,20 +7,12 @@
 
 import Foundation
 
-struct ItemIdResponse: Codable {
-    let content: [ItemId]
+struct ListIdItem: Codable {
+    let content: [IdItem]
 }
 
-struct ItemId: Codable {
+struct IdItem: Codable {
     let id: String
-    var idUrl: String? {
-        id + ","
-    }
     let position: Int
     let type: String
 }
-
-
-//"id": "MLB2146294763",
-//            "position": 1,
-//            "type": "ITEM"

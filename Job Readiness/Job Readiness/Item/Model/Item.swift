@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Response: Codable {
+struct Items: Codable {
     let code: Int
     var item: Item
     
@@ -17,7 +17,7 @@ struct Response: Codable {
     }
 }
 
-// MARK: - Body
+// MARK: - Item
 struct Item: Codable {
     let id: String
     let title: String

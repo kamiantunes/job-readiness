@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import AlamofireImage
 
 final class SearchTableViewCell: UITableViewCell {
     static let reuseId = "SearchTableViewCell"
@@ -96,9 +97,11 @@ final class SearchTableViewCell: UITableViewCell {
         setUpViews()
     }
     
-    func set(_ nameItem: String, _ price: Double, _ thumbnail: URL) {
+    func set(_ nameItem: String, _ priceItem: Double, _ thumbnail: URL) {
+        let price = priceItem >= 0 ? formatNumberToDecimal(value: priceItem) : nil
+        
         nameItemLabel.text = nameItem
-        priceLabel.text = formatNumberToDecimal(value: price)
+        priceLabel.text = price
         itemImageView.af.setImage(withURL: thumbnail)
     }
     
@@ -106,7 +109,7 @@ final class SearchTableViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func setUpViews() {
+    private func setUpViews() {
         addSubview(itemStackView)
         setUpConstraintsItemStackView()
         
@@ -136,11 +139,4 @@ final class SearchTableViewCell: UITableViewCell {
             itemImageView.widthAnchor.constraint(equalToConstant: 131)
         ])
     }
-
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
-    }
-
 }

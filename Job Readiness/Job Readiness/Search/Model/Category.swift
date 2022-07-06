@@ -16,7 +16,3 @@ struct Category : Codable {
         case categoryName = "category_name"
     }
 }
-
-
-//"category_id": "MLB271578",
-//        "category_name": "Testes de Gravidez e Ovulação",

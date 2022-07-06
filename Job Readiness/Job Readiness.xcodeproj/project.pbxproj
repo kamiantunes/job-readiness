@@ -33,8 +33,6 @@
 		E42B7BF028748465004179E7 /* FavoriteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E42B7BEF28748465004179E7 /* FavoriteView.swift */; };
 		E42B7BF22874D11D004179E7 /* Favorite.swift in Sources */ = {isa = PBXBuildFile; fileRef = E42B7BF12874D11D004179E7 /* Favorite.swift */; };
 		E48E1DB82871155B00B347CD /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = E48E1DB72871155B00B347CD /* Item.swift */; };
-		E48E1DBD28711A3E00B347CD /* TableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E48E1DBB28711A3E00B347CD /* TableViewCell.swift */; };
-		E48E1DBE28711A3E00B347CD /* TableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E48E1DBC28711A3E00B347CD /* TableViewCell.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -89,8 +87,6 @@
 		E42B7BEF28748465004179E7 /* FavoriteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteView.swift; sourceTree = "<group>"; };
 		E42B7BF12874D11D004179E7 /* Favorite.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Favorite.swift; sourceTree = "<group>"; };
 		E48E1DB72871155B00B347CD /* Item.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
-		E48E1DBB28711A3E00B347CD /* TableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewCell.swift; sourceTree = "<group>"; };
-		E48E1DBC28711A3E00B347CD /* TableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TableViewCell.xib; sourceTree = "<group>"; };
 		FE474B2154723849F0D1AD63 /* Pods_Job_Readiness.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Job_Readiness.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		FEF8E84733F6A3D591DE42E5 /* Pods-Job ReadinessTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Job ReadinessTests.release.xcconfig"; path = "Target Support Files/Pods-Job ReadinessTests/Pods-Job ReadinessTests.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -149,8 +145,6 @@
 		E42327AA2869E4E6008EB0F6 = {
 			isa = PBXGroup;
 			children = (
-				E48E1DBB28711A3E00B347CD /* TableViewCell.swift */,
-				E48E1DBC28711A3E00B347CD /* TableViewCell.xib */,
 				E42327B52869E4E6008EB0F6 /* Job Readiness */,
 				E42327CC2869E4E7008EB0F6 /* Job ReadinessTests */,
 				E42327D62869E4E7008EB0F6 /* Job ReadinessUITests */,
@@ -177,13 +171,13 @@
 				E42327B62869E4E6008EB0F6 /* AppDelegate.swift */,
 				E42327B82869E4E6008EB0F6 /* SceneDelegate.swift */,
 				E42327F0286BBBE0008EB0F6 /* Extension.swift */,
-				E42327C42869E4E7008EB0F6 /* Info.plist */,
 				E42B7BE9287483BE004179E7 /* Favorite */,
 				E42327F5286BBD2C008EB0F6 /* Item */,
 				E42327EC286BB9E2008EB0F6 /* Search */,
 				E42327F9286BBD82008EB0F6 /* Services */,
 				E42327F2286BBCCB008EB0F6 /* Tab Bar */,
 				E42327F4286BBD09008EB0F6 /* Resources */,
+				E42327C42869E4E7008EB0F6 /* Info.plist */,
 			);
 			path = "Job Readiness";
 			sourceTree = "<group>";
@@ -461,7 +455,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				E42327C32869E4E7008EB0F6 /* LaunchScreen.storyboard in Resources */,
-				E48E1DBE28711A3E00B347CD /* TableViewCell.xib in Resources */,
 				E4232802286CE0E7008EB0F6 /* ProximaNovaT-Thin.ttf in Resources */,
 				E4232804286CE4F2008EB0F6 /* ProximaNova-Regular.ttf in Resources */,
 				E42327C02869E4E7008EB0F6 /* Assets.xcassets in Resources */,
@@ -601,7 +594,6 @@
 				E42327B72869E4E6008EB0F6 /* AppDelegate.swift in Sources */,
 				E4232806286CF316008EB0F6 /* ItemView.swift in Sources */,
 				E42B7BF028748465004179E7 /* FavoriteView.swift in Sources */,
-				E48E1DBD28711A3E00B347CD /* TableViewCell.swift in Sources */,
 				E42B7BE5287395F0004179E7 /* Category.swift in Sources */,
 				E42B7BE728739B8C004179E7 /* ItemId.swift in Sources */,
 				E42B7BF22874D11D004179E7 /* Favorite.swift in Sources */,
