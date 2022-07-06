@@ -12,7 +12,7 @@ struct FavoriteManager {
     private let userDefaults = UserDefaults.standard
     
     func getFavorites() -> [String] {
-        userDefaults.object(forKey: "favorited") as! [String]
+        userDefaults.object(forKey: "favorited") as? [String] ?? []
     }
     
     func addFavorited(with id: String) {

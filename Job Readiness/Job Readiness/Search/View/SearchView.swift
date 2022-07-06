@@ -8,12 +8,10 @@
 import UIKit
 
 final class SearchView: UIView {
-    private lazy var headerView: UIView = {
-        let view = UIView()
+    private lazy var headerView: HeaderView = {
+        let view = HeaderView()
         
-        view.translatesAutoresizingMaskIntoConstraints = false
-        
-        view.backgroundColor = .yellow
+        view.setUpView()
         
         return view
     }()
@@ -97,10 +95,10 @@ final class SearchView: UIView {
     
     private func setUpConstraintHeaderView() {
         NSLayoutConstraint.activate([
-            headerView.topAnchor.constraint(equalTo: self.topAnchor),
-            headerView.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor),
-            headerView.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor),
-            headerView.bottomAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor, constant: 44)
+            headerView.topAnchor.constraint(equalTo: topAnchor),
+            headerView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            headerView.trailingAnchor.constraint(equalTo: trailingAnchor),
+            headerView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 44)
         ])
     }
     

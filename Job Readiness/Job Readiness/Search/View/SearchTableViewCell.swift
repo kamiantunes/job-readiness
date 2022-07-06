@@ -117,16 +117,16 @@ final class SearchTableViewCell: UITableViewCell {
     }
     
     func set(_ item: Item, isFavorited: Bool) {
+        favoriteButton.isSelected = isFavorited
+        
         nameItemLabel.text = item.title
-        priceLabel.text = formatNumberToDecimal(value: item.price)
+        priceLabel.text = item.price.formatNumberToPrice()
         availableQuantityLabel.text = availableQuantityText + String(item.availableQuantity)
         soldQuantityLabel.text = soldQuantityText + String(item.soldQuantity)
         
         if let thumbnail = item.thumbnail, let thumbnailUrl = URL(string: thumbnail){
             itemImageView.af.setImage(withURL: thumbnailUrl)
         }
-        
-        favoriteButton.isSelected = isFavorited
     }
     
     required init?(coder: NSCoder) {

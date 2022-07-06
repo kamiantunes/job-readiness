@@ -39,10 +39,6 @@ struct Item: Codable {
 struct Picture: Codable {
     let id: String
     let url: String?
-
-    enum CodingKeys: String, CodingKey {
-        case id, url
-    }
 }
 
 struct Description: Codable {
@@ -51,4 +47,14 @@ struct Description: Codable {
     enum CodingKeys: String, CodingKey {
         case descriptionText = "plain_text"
     }
+}
+
+struct ListIdItem: Codable {
+    let content: [IdItem]
+}
+
+struct IdItem: Codable {
+    let id: String
+    let position: Int
+    let type: String
 }

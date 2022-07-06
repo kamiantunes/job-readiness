@@ -27,7 +27,7 @@ final class ItemViewController: UIViewController {
         
         navigationController?.setNavigationBarHidden(true, animated: true)
         
-        pin(itemView, to: self)
+        itemView.pin(to: self)
         
         setUpDetails()
     }
@@ -61,7 +61,7 @@ final class ItemViewController: UIViewController {
         guard let item = item else { return }
 
         itemView.titleItemLabel.text = item.title
-        itemView.priceLabel.text = formatNumberToDecimal(value: item.price)
+        itemView.priceLabel.text = item.price.formatNumberToPrice()
         
         if let thumbnail = item.pictures.first?.url, let urlThumbnail = URL(string: thumbnail) {
             itemView.itemImageView.af.setImage(withURL: urlThumbnail)

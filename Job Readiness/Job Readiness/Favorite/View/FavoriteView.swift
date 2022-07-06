@@ -10,11 +10,9 @@ import UIKit
 final class FavoriteView: UIView {
 
     private lazy var headerView: UIView = {
-        let view = UIView()
+        let view = HeaderView()
         
-        view.translatesAutoresizingMaskIntoConstraints = false
-        
-        view.backgroundColor = .yellow
+        view.setUpView()
         
         return view
     }()
@@ -96,10 +94,10 @@ final class FavoriteView: UIView {
     
     private func setUpConstraintHeaderView() {
         NSLayoutConstraint.activate([
-            headerView.topAnchor.constraint(equalTo: self.topAnchor),
-            headerView.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor),
-            headerView.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor),
-            headerView.bottomAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor, constant: 44)
+            headerView.topAnchor.constraint(equalTo: topAnchor),
+            headerView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            headerView.trailingAnchor.constraint(equalTo: trailingAnchor),
+            headerView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 44)
         ])
     }
     
@@ -113,16 +111,16 @@ final class FavoriteView: UIView {
     private func setUpConstraintTableView() {
         NSLayoutConstraint.activate([
             tableView.topAnchor.constraint(equalTo: headerView.bottomAnchor),
-            tableView.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor),
-            tableView.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor),
-            tableView.bottomAnchor.constraint(equalTo: self.safeAreaLayoutGuide.bottomAnchor)
+            tableView.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor),
+            tableView.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor),
+            tableView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor)
         ])
     }
     
     private func setUpConstraintLoadActivityIndicator() {
         NSLayoutConstraint.activate([
-            loadActivityIndicator.centerYAnchor.constraint(equalTo: self.centerYAnchor),
-            loadActivityIndicator.centerXAnchor.constraint(equalTo: self.centerXAnchor)
+            loadActivityIndicator.centerYAnchor.constraint(equalTo: centerYAnchor),
+            loadActivityIndicator.centerXAnchor.constraint(equalTo: centerXAnchor)
         ])
     }
     

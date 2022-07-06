@@ -23,16 +23,19 @@ final class TabBarViewController: UITabBarController {
     
     private func setupVCs() {
         viewControllers = [
-            createNavController(for: SearchViewController(), title: NSLocalizedString("Busca", comment: ""), image: UIImage(systemName: "magnifyingglass")!),
-            createNavController(for: FavoriteViewController(), title: NSLocalizedString("Favoritos", comment: ""), image: UIImage(systemName: "heart.fill")!)
+            createNavController(for: SearchViewController(), title: NSLocalizedString("Busca", comment: String()), image: UIImage(systemName: "magnifyingglass")!),
+            createNavController(for: FavoriteViewController(), title: NSLocalizedString("Favoritos", comment: String()), image: UIImage(systemName: "heart.fill")!)
         ]
     }
     
     private func createNavController(for rootViewController: UIViewController, title: String, image: UIImage) -> UIViewController {
         let navController = UINavigationController(rootViewController: rootViewController)
+        let view = UIImageView()
+        
+        view.backgroundColor = .systemYellow
+        
         navController.tabBarItem.title = title
         navController.tabBarItem.image = image
-        navController.navigationBar.prefersLargeTitles = true
     
         return navController
     }

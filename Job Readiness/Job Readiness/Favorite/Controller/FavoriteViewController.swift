@@ -29,7 +29,7 @@ final class FavoriteViewController: UIViewController {
         super.viewDidLoad()
 
         navigationController?.setNavigationBarHidden(true, animated: true)
-        pin(favoriteView, to: self)
+        favoriteView.pin(to: self)
         
         setUpTableView()
     }

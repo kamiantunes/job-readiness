@@ -27,10 +27,9 @@ final class SearchViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        navigationController?.setNavigationBarHidden(true, animated: true)
 
-        pin(searchView, to: self)
+        searchView.pin(to: self)
+        navigationController?.setNavigationBarHidden(true, animated: true)
         
         setUpView()
     }
