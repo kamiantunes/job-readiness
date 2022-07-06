@@ -24,11 +24,15 @@ final class Network {
         
         AF.request(url, headers: headers)
             .responseDecodable(of: [Items].self) { data in
+                print("\n---- LOG: Requisição de ITENS iniciada")
+                
                 switch data.result {
                 case .success(let response):
+                    print("---- LOG: Requisição de ITENS concluída com sucesso")
                     completion(response)
                 case .failure(let error):
-                    print(error)
+                    print("---- LOG: Requisição de ITENS falhou")
+                    print("---- LOG: Erro apresentado - " + error.localizedDescription)
                     completion([])
                 }
             }
@@ -39,11 +43,15 @@ final class Network {
         
         AF.request(url, headers: headers)
             .responseDecodable(of: [Category].self) { data in
+                print("\n---- LOG: Requisição de CATEGORIA iniciada")
+                
                 switch data.result {
                 case .success(let response):
+                    print("---- LOG: Requisição de CATEGORIA concluída com sucesso")
                     completion(response)
                 case .failure(let error):
-                    print(error)
+                    print("---- LOG: Requisição de CATEGORIA falhou")
+                    print("---- LOG: Erro apresentado - " + error.localizedDescription)
                     completion([])
                 }
             }
@@ -54,11 +62,15 @@ final class Network {
         
         AF.request(url, headers: headers)
             .responseDecodable(of: ListIdItem.self) { data in
+                print("\n---- LOG: Requisição de TOP 20 ITENS iniciada")
+                
                 switch data.result {
                 case .success(let response):
+                    print("---- LOG: Requisição de TOP 20 ITENS concluída com sucesso")
                     completion(response)
                 case .failure(let error):
-                    print(error)
+                    print("---- LOG: Requisição de TOP 20 ITENS falhou")
+                    print("---- LOG: Erro apresentado - " + error.localizedDescription)
                     completion(nil)
                 }
             }
@@ -69,11 +81,15 @@ final class Network {
         
         AF.request(url, headers: headers)
             .responseDecodable(of: Description.self) { data in
+                print("\n---- LOG: Requisição de DESCRIÇÃO iniciada")
+                
                 switch data.result {
                 case .success(let response):
+                    print("---- LOG: Requisição de DESCRIÇÃO concluída com sucesso")
                     completion(response)
                 case .failure(let error):
-                    print(error)
+                    print("---- LOG: Requisição de DESCRIÇÃO falhou")
+                    print("---- LOG: Erro apresentado - " + error.localizedDescription)
                     completion(nil)
                 }
             }

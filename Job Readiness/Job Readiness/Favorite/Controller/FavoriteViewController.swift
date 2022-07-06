@@ -45,7 +45,16 @@ final class FavoriteViewController: UIViewController {
     }
     
     private func getItems() {
-        guard favoriteManager.countFavorites() > 0 else { return }
+        favorites.removeAll()
+        favoriteView.tableView.reloadData()
+        
+        guard favoriteManager.countFavorites() > 0 else {
+            favoriteView.noFavoritesLabel.isHidden = false
+            reloadInputViews()
+            return
+        }
+        
+        favoriteView.noFavoritesLabel.isHidden = true
         
         setDidLoad()
         
@@ -79,21 +88,17 @@ extension FavoriteViewController: UITableViewDelegate, UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(
             withIdentifier: SearchTableViewCell.reuseId, for: indexPath) as? SearchTableViewCell
         
+        guard let cell = cell else { return UITableViewCell() }
+        
         let favorite = favorites[indexPath.row].item
         
-        guard let cell = cell,
-              let thumbnail = favorite.thumbnail,
-              let urlThumbnail = URL(string: thumbnail) else { return UITableViewCell() }
-        
-        let nameItem = favorite.title
-        let price = favorite.price
-        
-        cell.set(nameItem, price, urlThumbnail, isFavorited: true)
+        cell.set(favorite, isFavorited: self.favoriteManager.consultFavorited(with: favorite.id))
         
         cell.favorite = {
             self.favoriteManager.consultFavorited(with: favorite.id) ? self.favoriteManager.removeFavorited(with: favorite.id) : self.favoriteManager.addFavorited(with: favorite.id)
             
             cell.favoriteButton.isSelected = !cell.favoriteButton.isSelected
+            self.getItems()
         }
         
         return cell

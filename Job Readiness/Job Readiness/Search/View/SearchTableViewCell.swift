@@ -10,8 +10,11 @@ import AlamofireImage
 
 final class SearchTableViewCell: UITableViewCell {
     static let reuseId = "SearchTableViewCell"
+    
     var favorite: (() -> Void)?
     var isFavorited: Bool = false
+    let availableQuantityText = "Quantidade Disponível: "
+    let soldQuantityText = "Vendidos: "
     
     lazy var itemImageView: UIImageView = {
         let imageView = UIImageView()
@@ -42,24 +45,24 @@ final class SearchTableViewCell: UITableViewCell {
         return label
     }()
     
-    private lazy var firstInformationLabel: UILabel = {
+    private lazy var availableQuantityLabel: UILabel = {
         let label = UILabel()
         
         label.translatesAutoresizingMaskIntoConstraints = false
         
-        label.text = "2019 - 37.000 Km"
         label.font = UIFont.customFont(type: .regular, size: 11)
         label.textColor = .gray
+        label.text = availableQuantityText
         
         return label
     }()
     
-    private lazy var secondInformationLabel: UILabel = {
+    private lazy var soldQuantityLabel: UILabel = {
         let label = UILabel()
         
         label.translatesAutoresizingMaskIntoConstraints = false
         
-        label.text = "Bs.As. G.B.A. Norte"
+        label.text = soldQuantityText
         label.font = UIFont.customFont(type: .regular, size: 11)
         label.textColor = .gray
         
@@ -113,10 +116,16 @@ final class SearchTableViewCell: UITableViewCell {
         setUpViews()
     }
     
-    func set(_ nameItem: String, _ priceItem: Double, _ thumbnail: URL, isFavorited: Bool) {
-        nameItemLabel.text = nameItem
-        priceLabel.text = formatNumberToDecimal(value: priceItem)
-        itemImageView.af.setImage(withURL: thumbnail)
+    func set(_ item: Item, isFavorited: Bool) {
+        nameItemLabel.text = item.title
+        priceLabel.text = formatNumberToDecimal(value: item.price)
+        availableQuantityLabel.text = availableQuantityText + String(item.availableQuantity)
+        soldQuantityLabel.text = soldQuantityText + String(item.soldQuantity)
+        
+        if let thumbnail = item.thumbnail, let thumbnailUrl = URL(string: thumbnail){
+            itemImageView.af.setImage(withURL: thumbnailUrl)
+        }
+        
         favoriteButton.isSelected = isFavorited
     }
     
@@ -135,8 +144,8 @@ final class SearchTableViewCell: UITableViewCell {
         
         labelsStackView.addArrangedSubview(nameItemLabel)
         labelsStackView.addArrangedSubview(priceLabel)
-        labelsStackView.addArrangedSubview(firstInformationLabel)
-        labelsStackView.addArrangedSubview(secondInformationLabel)
+        labelsStackView.addArrangedSubview(availableQuantityLabel)
+        labelsStackView.addArrangedSubview(soldQuantityLabel)
         
         addSubview(favoriteButton)
         setUpConstraintsFavoriteButton()

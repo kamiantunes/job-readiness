@@ -32,15 +32,18 @@ final class SearchViewController: UIViewController {
 
         pin(searchView, to: self)
         
-        setUpSearchBar()
+        setUpView()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         searchView.tableView.reloadData()
     }
     
-    private func setUpSearchBar() {
+    private func setUpView() {
         searchView.searchBar.delegate = self
+        searchView.noCategoryLabel.isHidden = false
+        
+        setUpTableView()
     }
     
     private func searchItems(with categoryId: String) {
@@ -70,8 +73,8 @@ final class SearchViewController: UIViewController {
     private func setItems(with itemsPath: String) {
         network.getItems(using: itemsPath) { response in
             self.listItems = response
+            self.listItems.sort(by: {$0.item.id > $1.item.id})
             self.setDidLoad()
-            self.setUpTableView()
             self.searchView.tableView.reloadData()
         }
     }
@@ -84,13 +87,15 @@ final class SearchViewController: UIViewController {
     }
     
     private func makeAndPresentAlertError() {
-        let message = "Não foi possível encontrar itens!"
-        let title = "Não foram encontrados itens com esta categoria!"
+        let message = "Verifique se a palavra está escrita corretamente."
+        let title = "Não encontramos itens!"
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         
         alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
         
-        self.present(alert, animated: true, completion: nil)
+        self.present(alert, animated: true){
+            self.setHidden()
+        }
     }
     
     private func setDidLoad() {
@@ -101,19 +106,21 @@ final class SearchViewController: UIViewController {
         listItems.removeAll()
         searchView.tableView.reloadData()
     }
+    
+    private func setHidden() {
+        self.searchView.noCategoryLabel.isHidden = false
+    }
 }
     
 extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: SearchTableViewCell.reuseId, for: indexPath) as? SearchTableViewCell
+        
+        guard let cell = cell else { return UITableViewCell() }
+        
         let item = listItems[indexPath.row].item
         
-        guard let cell = cell, let thumbnail = item.thumbnail, let urlThumbnail = URL(string: thumbnail) else { return UITableViewCell() }
-        
-        let nameItem = item.title
-        let price = item.price
-        
-        cell.set(nameItem, price, urlThumbnail, isFavorited: favoriteManager.consultFavorited(with: item.id))
+        cell.set(item, isFavorited: favoriteManager.consultFavorited(with: item.id))
         
         cell.favorite = {
             self.favoriteManager.consultFavorited(with: item.id) ? self.favoriteManager.removeFavorited(with: item.id) : self.favoriteManager.addFavorited(with: item.id)
@@ -146,12 +153,14 @@ extension SearchViewController: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         guard let categorie = searchView.searchBar.text else { return }
         
+        searchView.noCategoryLabel.isHidden = true
         setDidLoad()
         cleanTableView()
         
         network.getCategory(using: categorie) { response in
             guard let response = response.first else {
                 self.makeAndPresentAlertError()
+                self.setDidLoad()
                 return
             }
 

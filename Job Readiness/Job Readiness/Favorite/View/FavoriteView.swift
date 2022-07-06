@@ -51,6 +51,21 @@ final class FavoriteView: UIView {
         return activityIndicatorView
     }()
     
+    lazy var noFavoritesLabel: UILabel = {
+        let label = UILabel()
+        
+        label.translatesAutoresizingMaskIntoConstraints = false
+        
+        label.text = "Você ainda não adicionou os seus favoritos 😔"
+        label.font = UIFont.customFont(type: .regular, size: 16)
+        label.textColor = .darkGray
+        label.textAlignment = .center
+        label.isHidden = true
+        label.numberOfLines = 0
+        
+        return label
+    }()
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.backgroundColor = .white
@@ -74,6 +89,9 @@ final class FavoriteView: UIView {
         
         addSubview(loadActivityIndicator)
         setUpConstraintLoadActivityIndicator()
+        
+        addSubview(noFavoritesLabel)
+        setUpConstraintNoFavoritesLabel()
     }
     
     private func setUpConstraintHeaderView() {
@@ -105,6 +123,14 @@ final class FavoriteView: UIView {
         NSLayoutConstraint.activate([
             loadActivityIndicator.centerYAnchor.constraint(equalTo: self.centerYAnchor),
             loadActivityIndicator.centerXAnchor.constraint(equalTo: self.centerXAnchor)
+        ])
+    }
+    
+    private func setUpConstraintNoFavoritesLabel() {
+        NSLayoutConstraint.activate([
+            noFavoritesLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 36),
+            noFavoritesLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -36),
+            noFavoritesLabel.centerYAnchor.constraint(equalTo: centerYAnchor)
         ])
     }
 }

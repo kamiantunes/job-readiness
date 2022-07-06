@@ -24,11 +24,15 @@ struct Item: Codable {
     let thumbnail: String?
     let pictures: [Picture]
     var price: Double
+    let availableQuantity: Int
+    let soldQuantity: Int
     
     var isFavorited: Bool = false
 
     enum CodingKeys: String, CodingKey {
         case id, title, subtitle, price, thumbnail, pictures
+        case availableQuantity = "available_quantity"
+        case soldQuantity = "sold_quantity"
     }
 }
 

@@ -52,6 +52,21 @@ final class SearchView: UIView {
         return activityIndicatorView
     }()
     
+    lazy var noCategoryLabel: UILabel = {
+        let label = UILabel()
+        
+        label.translatesAutoresizingMaskIntoConstraints = false
+        
+        label.text = "Insira uma categoria 🔍"
+        label.font = UIFont.customFont(type: .regular, size: 16)
+        label.textColor = .darkGray
+        label.textAlignment = .center
+        label.isHidden = true
+        label.numberOfLines = 0
+        
+        return label
+    }()
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.backgroundColor = .white
@@ -75,6 +90,9 @@ final class SearchView: UIView {
         
         addSubview(loadActivityIndicator)
         setUpConstraintLoadActivityIndicatorView()
+        
+        addSubview(noCategoryLabel)
+        setUpConstraintNoCategoryLabel()
     }
     
     private func setUpConstraintHeaderView() {
@@ -108,6 +126,14 @@ final class SearchView: UIView {
         NSLayoutConstraint.activate([
             loadActivityIndicator.centerYAnchor.constraint(equalTo: self.centerYAnchor),
             loadActivityIndicator.centerXAnchor.constraint(equalTo: self.centerXAnchor)
+        ])
+    }
+    
+    private func setUpConstraintNoCategoryLabel() {
+        NSLayoutConstraint.activate([
+            noCategoryLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 36),
+            noCategoryLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -36),
+            noCategoryLabel.centerYAnchor.constraint(equalTo: centerYAnchor)
         ])
     }
 }
