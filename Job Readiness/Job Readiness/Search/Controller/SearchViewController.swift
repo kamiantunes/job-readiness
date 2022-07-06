@@ -19,7 +19,7 @@ final class SearchViewController: UIViewController {
     
     private var didLoad: Bool = true {
         didSet {
-            didLoad ? searchView.activityIndicator.stopAnimating() : searchView.activityIndicator.startAnimating()
+            didLoad ? searchView.loadActivityIndicator.stopAnimating() : searchView.loadActivityIndicator.startAnimating()
         }
     }
     
@@ -57,7 +57,6 @@ final class SearchViewController: UIViewController {
         
         for itemId in listId {
             let idPath = itemId.id == listId.last?.id ? itemId.id : itemId.id + ","
-            
             itemsPath += idPath
         }
         
@@ -81,8 +80,8 @@ final class SearchViewController: UIViewController {
     }
     
     private func makeAndPresentAlertError() {
-        let message = "Não foi possível encontrar items!"
-        let title = "Items desta categoria não foram encontrados!"
+        let message = "Não foi possível encontrar itens!"
+        let title = "Não foram encontrados itens com esta categoria!"
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         
         alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
@@ -108,7 +107,7 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
         guard let cell = cell, let thumbnail = item.thumbnail, let urlThumbnail = URL(string: thumbnail) else { return UITableViewCell() }
         
         let nameItem = item.title
-        let price = item.price ?? -1
+        let price = item.price
         
         cell.set(nameItem, price, urlThumbnail)
         

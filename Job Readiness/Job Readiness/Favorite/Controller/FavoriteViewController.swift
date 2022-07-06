@@ -7,15 +7,21 @@
 
 import UIKit
 
-class FavoriteViewController: UIViewController {
-    
+final class FavoriteViewController: UIViewController {
     private lazy var favoriteView: FavoriteView = {
         FavoriteView(frame: .zero)
     }()
     
     private let network = Network()
     private let favoriteManager = FavoriteManager()
+    
     private var favorites: [Items] = []
+    
+    private var didLoad: Bool = true {
+        didSet {
+            didLoad ? favoriteView.loadActivityIndicator.stopAnimating() : favoriteView.loadActivityIndicator.startAnimating()
+        }
+    }
     
     private var delegate: ItemViewControllerDelegate?
 
@@ -24,18 +30,13 @@ class FavoriteViewController: UIViewController {
 
         navigationController?.setNavigationBarHidden(true, animated: true)
         pin(favoriteView, to: self)
+        
+        setUpTableView()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         cleanTableView()
         getItems()
-    }
-
-    private func setUpTableView() {
-        favoriteView.tableView.delegate = self
-        favoriteView.tableView.dataSource = self
-
-        favoriteView.tableView.register(SearchTableViewCell.self, forCellReuseIdentifier: SearchTableViewCell.reuseId)
     }
     
     private func cleanTableView() {
@@ -46,15 +47,26 @@ class FavoriteViewController: UIViewController {
     private func getItems() {
         guard favoriteManager.countFavorites() > 0 else { return }
         
-        favoriteView.loading.startAnimating()
+        setDidLoad()
         
         network.getItems(using: favoriteManager.getIdsForPath()) { response in
             self.favorites = response
             self.favorites.sort(by: {$0.item.id > $1.item.id})
-            self.setUpTableView()
-            self.favoriteView.loading.stopAnimating()
+            
             self.favoriteView.tableView.reloadData()
+            self.setDidLoad()
         }
+    }
+
+    private func setUpTableView() {
+        favoriteView.tableView.delegate = self
+        favoriteView.tableView.dataSource = self
+
+        favoriteView.tableView.register(SearchTableViewCell.self, forCellReuseIdentifier: SearchTableViewCell.reuseId)
+    }
+    
+    private func setDidLoad() {
+        didLoad = !didLoad
     }
 }
 
@@ -67,15 +79,16 @@ extension FavoriteViewController: UITableViewDelegate, UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(
             withIdentifier: SearchTableViewCell.reuseId, for: indexPath) as? SearchTableViewCell
         
+        let favorite = favorites[indexPath.row].item
+        
         guard let cell = cell,
-              !favorites.isEmpty,
-              let thumbnail = favorites[indexPath.row].item.thumbnail,
+              let thumbnail = favorite.thumbnail,
               let urlThumbnail = URL(string: thumbnail) else { return UITableViewCell() }
         
-        let nameItem = favorites[indexPath.row].item.title
-        let price = favorites[indexPath.row].item.price ?? 0.0
+        let nameItem = favorite.title
+        let price = favorite.price
         
-        //cell.set(nameItem, price, urlThumbnail)
+        cell.set(nameItem, price, urlThumbnail)
         
         return cell
     }
@@ -84,12 +97,11 @@ extension FavoriteViewController: UITableViewDelegate, UITableViewDataSource {
         let viewController = ItemViewController()
         var item = favorites[indexPath.row].item
         
-        favoriteView.tableView.deselectRow(at: indexPath, animated: true)
-        
         delegate = viewController
         item.isFavorited = favoriteManager.consultFavorited(with: item.id)
         
         delegate?.setInformations(with: item)
+        favoriteView.tableView.deselectRow(at: indexPath, animated: true)
         
         navigationController?.pushViewController(viewController, animated: true)
     }

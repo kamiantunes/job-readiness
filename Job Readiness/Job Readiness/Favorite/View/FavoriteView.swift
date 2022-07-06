@@ -23,6 +23,7 @@ class FavoriteView: UIView {
         let tableView = UITableView()
         
         tableView.translatesAutoresizingMaskIntoConstraints = false
+        
         tableView.backgroundColor = .white
         
         return tableView
@@ -32,21 +33,22 @@ class FavoriteView: UIView {
         let label = UILabel()
         
         label.translatesAutoresizingMaskIntoConstraints = false
+        
         label.text = "Favoritos"
         label.font = UIFont.customFont(type: .regular, size: 20)
         
         return label
     }()
     
-    lazy var loading: UIActivityIndicatorView = {
-        let loading = UIActivityIndicatorView()
+    lazy var loadActivityIndicator: UIActivityIndicatorView = {
+        let activityIndicatorView = UIActivityIndicatorView()
         
-        loading.translatesAutoresizingMaskIntoConstraints = false
+        activityIndicatorView.translatesAutoresizingMaskIntoConstraints = false
         
-        loading.hidesWhenStopped = true
-        loading.style = .large
+        activityIndicatorView.hidesWhenStopped = true
+        activityIndicatorView.style = .large
         
-        return loading
+        return activityIndicatorView
     }()
     
     override init(frame: CGRect) {
@@ -70,8 +72,8 @@ class FavoriteView: UIView {
         addSubview(tableView)
         setUpConstraintTableView()
         
-        addSubview(loading)
-        setUpConstraintLoading()
+        addSubview(loadActivityIndicator)
+        setUpConstraintLoadActivityIndicator()
     }
     
     private func setUpConstraintHeaderView() {
@@ -99,10 +101,10 @@ class FavoriteView: UIView {
         ])
     }
     
-    private func setUpConstraintLoading() {
+    private func setUpConstraintLoadActivityIndicator() {
         NSLayoutConstraint.activate([
-            loading.centerYAnchor.constraint(equalTo: self.centerYAnchor),
-            loading.centerXAnchor.constraint(equalTo: self.centerXAnchor)
+            loadActivityIndicator.centerYAnchor.constraint(equalTo: self.centerYAnchor),
+            loadActivityIndicator.centerXAnchor.constraint(equalTo: self.centerXAnchor)
         ])
     }
 }

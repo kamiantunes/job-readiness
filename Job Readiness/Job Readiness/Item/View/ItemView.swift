@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ItemView: UIView {
+final class ItemView: UIView {
     private lazy var headerView: UIView = {
         let view = UIView()
         
@@ -41,17 +41,17 @@ class ItemView: UIView {
         return button
     }()
     
-    private lazy var stackTopView: UIStackView = {
-        let stack = UIStackView()
+    private lazy var topStackView: UIStackView = {
+        let stackView = UIStackView()
         
-        stack.translatesAutoresizingMaskIntoConstraints = false
+        stackView.translatesAutoresizingMaskIntoConstraints = false
         
-        stack.backgroundColor = .yellow
-        stack.axis = .horizontal
-        stack.alignment = .fill
-        stack.distribution = .equalSpacing
+        stackView.backgroundColor = .yellow
+        stackView.axis = .horizontal
+        stackView.alignment = .fill
+        stackView.distribution = .equalSpacing
         
-        return stack
+        return stackView
     }()
     
     lazy var titleItemLabel: UILabel = {
@@ -59,7 +59,6 @@ class ItemView: UIView {
         
         label.translatesAutoresizingMaskIntoConstraints = false
         
-        label.text = "Volkswagen Fox 1.6 Connect"
         label.font = UIFont.customFont(type: .regular, size: 24)
         label.textAlignment = .left
         label.numberOfLines = 0
@@ -90,22 +89,23 @@ class ItemView: UIView {
     }()
     
     private lazy var itemStackView: UIStackView = {
-        let stack = UIStackView()
+        let stackView = UIStackView()
         
-        stack.translatesAutoresizingMaskIntoConstraints = false
+        stackView.translatesAutoresizingMaskIntoConstraints = false
     
-        stack.axis = .vertical
-        stack.alignment = .fill
-        stack.distribution = .fill
-        stack.spacing = 24
+        stackView.axis = .vertical
+        stackView.alignment = .fill
+        stackView.distribution = .fill
+        stackView.spacing = 24
         
-        return stack
+        return stackView
     }()
     
     private lazy var descriptionLabel: UILabel = {
         let label = UILabel()
         
         label.translatesAutoresizingMaskIntoConstraints = false
+        
         label.text = "Descrição"
         label.font = UIFont.customFont(type: .regular, size: 24)
         
@@ -139,19 +139,20 @@ class ItemView: UIView {
         return view
     }()
     
-    lazy var loading: UIActivityIndicatorView = {
-        let loading = UIActivityIndicatorView()
+    lazy var loadActivityIndicator: UIActivityIndicatorView = {
+        let activityIndicatorView = UIActivityIndicatorView()
         
-        loading.translatesAutoresizingMaskIntoConstraints = false
+        activityIndicatorView.translatesAutoresizingMaskIntoConstraints = false
         
-        loading.hidesWhenStopped = true
-        loading.style = .large
+        activityIndicatorView.hidesWhenStopped = true
+        activityIndicatorView.style = .large
         
-        return loading
+        return activityIndicatorView
     }()
 
     override init(frame: CGRect) {
         super.init(frame: frame)
+        
         self.backgroundColor = .white
         
         setUpSubviews()
@@ -162,17 +163,14 @@ class ItemView: UIView {
     }
     
     private func setUpSubviews() {
-        addSubview(loading)
-        setUpConstraintLoading()
-        
         addSubview(headerView)
         setUpConstraintHeaderView()
         
-        headerView.addSubview(stackTopView)
-        setUpConstraintStackTopView()
+        headerView.addSubview(topStackView)
+        setUpConstraintTopStackView()
         
-        stackTopView.addArrangedSubview(backButton)
-        stackTopView.addArrangedSubview(favoriteButton)
+        topStackView.addArrangedSubview(backButton)
+        topStackView.addArrangedSubview(favoriteButton)
         
         addSubview(scrollView)
         setUpConstraintScrollView()
@@ -188,6 +186,9 @@ class ItemView: UIView {
         itemStackView.addArrangedSubview(priceLabel)
         itemStackView.addArrangedSubview(descriptionLabel)
         itemStackView.addArrangedSubview(descriptionItemLabel)
+        
+        addSubview(loadActivityIndicator)
+        setUpConstraintLoadActivityIndicator()
     }
     
     private func setUpConstraintHeaderView() {
@@ -199,12 +200,12 @@ class ItemView: UIView {
         ])
     }
     
-    private func setUpConstraintStackTopView() {
+    private func setUpConstraintTopStackView() {
         NSLayoutConstraint.activate([
-            stackTopView.topAnchor.constraint(equalTo: headerView.safeAreaLayoutGuide.topAnchor, constant: 11),
-            stackTopView.leadingAnchor.constraint(equalTo: headerView.safeAreaLayoutGuide.leadingAnchor, constant: 10),
-            stackTopView.trailingAnchor.constraint(equalTo: headerView.safeAreaLayoutGuide.trailingAnchor, constant: -10),
-            stackTopView.bottomAnchor.constraint(equalTo: headerView.safeAreaLayoutGuide.bottomAnchor, constant: -11)
+            topStackView.topAnchor.constraint(equalTo: headerView.safeAreaLayoutGuide.topAnchor, constant: 11),
+            topStackView.leadingAnchor.constraint(equalTo: headerView.safeAreaLayoutGuide.leadingAnchor, constant: 10),
+            topStackView.trailingAnchor.constraint(equalTo: headerView.safeAreaLayoutGuide.trailingAnchor, constant: -10),
+            topStackView.bottomAnchor.constraint(equalTo: headerView.safeAreaLayoutGuide.bottomAnchor, constant: -11)
         ])
     }
     
@@ -235,10 +236,10 @@ class ItemView: UIView {
         ])
     }
     
-    private func setUpConstraintLoading() {
+    private func setUpConstraintLoadActivityIndicator() {
         NSLayoutConstraint.activate([
-            loading.centerXAnchor.constraint(equalTo: centerXAnchor),
-            loading.centerYAnchor.constraint(equalTo: centerYAnchor)
+            loadActivityIndicator.centerXAnchor.constraint(equalTo: centerXAnchor),
+            loadActivityIndicator.centerYAnchor.constraint(equalTo: centerYAnchor)
         ])
     }
 }

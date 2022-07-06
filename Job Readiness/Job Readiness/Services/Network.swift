@@ -7,8 +7,6 @@
 
 import Alamofire
 
-//MLB2146288737
-
 final class Network {
     enum urlAPI : String {
         case predictor = "https://api.mercadolibre.com/sites/MLB/domain_discovery/search?limit=1&q="
@@ -16,7 +14,7 @@ final class Network {
         case idItems = "https://api.mercadolibre.com/items?ids="
         case item = "https://api.mercadolibre.com/items/"
         case descriptionParameter = "/description"
-        case token = "APP_USR-3215827880957566-070516-cd3e8a889cbebad3aac5b91d112b8101-734158173"
+        case token = "APP_USR-3215827880957566-070522-6c59f07a7e37f794f6f02aa4ef7a7616-734158173"
     }
     
     private let headers: HTTPHeaders = [.authorization(bearerToken: urlAPI.token.rawValue)]

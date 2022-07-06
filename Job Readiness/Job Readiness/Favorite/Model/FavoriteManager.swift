@@ -41,11 +41,8 @@ struct FavoriteManager {
         var string = String()
         
         for item in FavoriteManager.itemsFavorited {
-            if item == FavoriteManager.itemsFavorited.last {
-                string += item
-            } else {
-                string += item + ","
-            }
+            let idItem = item == FavoriteManager.itemsFavorited.last ? item : item + ","
+            string += idItem
         }
         
         return string

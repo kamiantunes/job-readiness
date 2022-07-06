@@ -41,7 +41,7 @@ final class SearchView: UIView {
         return tableView
     }()
     
-    lazy var activityIndicator: UIActivityIndicatorView = {
+    lazy var loadActivityIndicator: UIActivityIndicatorView = {
         let activityIndicatorView = UIActivityIndicatorView()
         
         activityIndicatorView.translatesAutoresizingMaskIntoConstraints = false
@@ -73,8 +73,8 @@ final class SearchView: UIView {
         addSubview(tableView)
         setUpConstraintsTableView()
         
-        addSubview(activityIndicator)
-        setUpConstraintLoadingActivityIndicatorView()
+        addSubview(loadActivityIndicator)
+        setUpConstraintLoadActivityIndicatorView()
     }
     
     private func setUpConstraintHeaderView() {
@@ -104,10 +104,10 @@ final class SearchView: UIView {
         ])
     }
     
-    private func setUpConstraintLoadingActivityIndicatorView() {
+    private func setUpConstraintLoadActivityIndicatorView() {
         NSLayoutConstraint.activate([
-            activityIndicator.centerYAnchor.constraint(equalTo: self.centerYAnchor),
-            activityIndicator.centerXAnchor.constraint(equalTo: self.centerXAnchor)
+            loadActivityIndicator.centerYAnchor.constraint(equalTo: self.centerYAnchor),
+            loadActivityIndicator.centerXAnchor.constraint(equalTo: self.centerXAnchor)
         ])
     }
 }

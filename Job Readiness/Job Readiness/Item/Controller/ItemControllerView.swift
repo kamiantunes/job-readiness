@@ -7,33 +7,36 @@
 
 import UIKit
 
-class ItemViewController: UIViewController {
+final class ItemViewController: UIViewController {
     private lazy var itemView: ItemView = {
         ItemView(frame: .zero)
     }()
     
     private var item: Item?
     private let network = Network()
-    private let favorites = FavoriteManager()
+    private let favoriteManager = FavoriteManager()
     
-    private var willLoad: Bool = false {
+    private var didLoad: Bool = true {
         didSet {
-            willLoad ? itemView.loading.startAnimating() : itemView.loading.stopAnimating()
+            didLoad ? itemView.loadActivityIndicator.stopAnimating() : itemView.loadActivityIndicator.startAnimating()
         }
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        willLoad = true
-        
         navigationController?.setNavigationBarHidden(true, animated: true)
+        
+        pin(itemView, to: self)
+        
+        setUpDetails()
+    }
+    
+    private func setUpDetails() {
+        setDidLoad()
         addActions()
         addInformation()
         getDescription()
-        willLoad = false
-        
-        pin(itemView, to: self)
     }
     
     private func addActions() {
@@ -48,8 +51,7 @@ class ItemViewController: UIViewController {
     @objc private func didFavoriteButtonTapped() {
         guard let item = item else { return }
         
-        itemView.favoriteButton.isSelected ?
-            favorites.removeFavorited(with: item.id) : favorites.addFavorited(with: item.id)
+        itemView.favoriteButton.isSelected ? favoriteManager.removeFavorited(with: item.id) : favoriteManager.addFavorited(with: item.id)
         
         itemView.favoriteButton.isSelected = !itemView.favoriteButton.isSelected
         itemView.reloadInputViews()
@@ -59,12 +61,11 @@ class ItemViewController: UIViewController {
         guard let item = item else { return }
 
         itemView.titleItemLabel.text = item.title
-        itemView.priceLabel.text = formatNumberToDecimal(value: item.price ?? 0.0)
+        itemView.priceLabel.text = formatNumberToDecimal(value: item.price)
         
-//        if let thumbnail = item.pictures[0].url, let urlThumbnail = URL(string: thumbnail){
-//            itemView.itemImageView.af.setImage(withURL: urlThumbnail)
-//        }
-        
+        if let thumbnail = item.pictures.first?.url, let urlThumbnail = URL(string: thumbnail) {
+            itemView.itemImageView.af.setImage(withURL: urlThumbnail)
+        }
     }
     
     private func getDescription() {
@@ -73,8 +74,13 @@ class ItemViewController: UIViewController {
         network.getDescription(using: item.id) { response in
             guard let response = response else { return }
 
+            self.setDidLoad()
             self.itemView.descriptionItemLabel.text = response.descriptionText
         }
+    }
+    
+    private func setDidLoad() {
+        didLoad = !didLoad
     }
 }
 

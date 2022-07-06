@@ -22,23 +22,14 @@ struct Item: Codable {
     let id: String
     let title: String
     let subtitle: String?
-    var price: Double?
-    var priceFormated: String? {
-        "R$ " + String(price ?? 0.0)
-    }
     let thumbnail: String?
-    let secureThumbnail: String?
     let pictures: [Picture]
-    let dateCreated, lastUpdated: String?
+    var price: Double
+    
     var isFavorited: Bool = false
 
     enum CodingKeys: String, CodingKey {
-        case id, title, subtitle
-        case price, pictures
-        case thumbnail
-        case secureThumbnail = "secure_thumbnail"
-        case dateCreated = "date_created"
-        case lastUpdated = "last_updated"
+        case id, title, subtitle, price, thumbnail, pictures
     }
 }
 
@@ -46,15 +37,9 @@ struct Item: Codable {
 struct Picture: Codable {
     let id: String
     let url: String?
-    let secureURL: String
-    let size, maxSize, quality: String
 
     enum CodingKeys: String, CodingKey {
         case id, url
-        case secureURL = "secure_url"
-        case size
-        case maxSize = "max_size"
-        case quality
     }
 }
 

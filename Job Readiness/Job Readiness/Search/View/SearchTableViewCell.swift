@@ -98,10 +98,8 @@ final class SearchTableViewCell: UITableViewCell {
     }
     
     func set(_ nameItem: String, _ priceItem: Double, _ thumbnail: URL) {
-        let price = priceItem >= 0 ? formatNumberToDecimal(value: priceItem) : nil
-        
         nameItemLabel.text = nameItem
-        priceLabel.text = price
+        priceLabel.text = formatNumberToDecimal(value: priceItem)
         itemImageView.af.setImage(withURL: thumbnail)
     }
     
