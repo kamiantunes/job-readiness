@@ -88,7 +88,13 @@ extension FavoriteViewController: UITableViewDelegate, UITableViewDataSource {
         let nameItem = favorite.title
         let price = favorite.price
         
-        cell.set(nameItem, price, urlThumbnail)
+        cell.set(nameItem, price, urlThumbnail, isFavorited: true)
+        
+        cell.favorite = {
+            self.favoriteManager.consultFavorited(with: favorite.id) ? self.favoriteManager.removeFavorited(with: favorite.id) : self.favoriteManager.addFavorited(with: favorite.id)
+            
+            cell.favoriteButton.isSelected = !cell.favoriteButton.isSelected
+        }
         
         return cell
     }

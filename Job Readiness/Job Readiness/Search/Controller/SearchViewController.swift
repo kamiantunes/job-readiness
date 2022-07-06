@@ -35,6 +35,10 @@ final class SearchViewController: UIViewController {
         setUpSearchBar()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        searchView.tableView.reloadData()
+    }
+    
     private func setUpSearchBar() {
         searchView.searchBar.delegate = self
     }
@@ -109,7 +113,13 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
         let nameItem = item.title
         let price = item.price
         
-        cell.set(nameItem, price, urlThumbnail)
+        cell.set(nameItem, price, urlThumbnail, isFavorited: favoriteManager.consultFavorited(with: item.id))
+        
+        cell.favorite = {
+            self.favoriteManager.consultFavorited(with: item.id) ? self.favoriteManager.removeFavorited(with: item.id) : self.favoriteManager.addFavorited(with: item.id)
+            
+            cell.favoriteButton.isSelected = !cell.favoriteButton.isSelected
+        }
         
         return cell
     }
